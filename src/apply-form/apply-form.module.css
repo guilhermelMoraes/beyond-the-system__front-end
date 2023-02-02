@@ -1,0 +1,15 @@
+.apply-form {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.apply-form__main {
+  background-color: white;
+  border: 1px solid black;
+}
+
+.apply-form__form {
+  padding: 16px;
+}
