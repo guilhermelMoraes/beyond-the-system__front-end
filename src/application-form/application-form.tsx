@@ -4,8 +4,8 @@ function ApplicationForm() {
   return (
     <div className={`${styles['application-form']} bg-secondary`}>
       <main className={styles['application-form__main']}>
-        <header className="bg-primary p-3">
-          <h1 className="text-white mb-0">Cadastro de ingressantes</h1>
+        <header className={`${styles['application-form__header']} muralis-primary p-3`}>
+          <h1 className="mb-0">Cadastro de ingressantes</h1>
         </header>
         <form className={styles['application-form__form']}>
           <div className="mb-3">
@@ -33,6 +33,12 @@ function ApplicationForm() {
               <option value="" disabled selected>Selecione um estado</option>
             </select>
           </div>
+          <button
+            type="submit"
+            className="btn w-100 muralis-primary muralis-primary--hover"
+          >
+            ENVIAR
+          </button>
         </form>
       </main>
     </div>

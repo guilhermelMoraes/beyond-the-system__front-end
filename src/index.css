@@ -4,3 +4,13 @@
   padding: 0;
   margin: 0;
 }
+
+.muralis-primary {
+  background-color: #0e2c4e;
+  color: #fff;
+}
+
+.muralis-primary--hover:hover {
+  background-color: #07192c;
+  color: #fff;
+}
