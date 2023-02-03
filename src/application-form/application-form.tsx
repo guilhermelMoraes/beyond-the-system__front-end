@@ -5,7 +5,12 @@ import { OptionData } from './application-form.interfaces';
 import styles from './application-form.module.css';
 
 function ApplicationForm() {
-  const { register, watch } = useForm({
+  const {
+    watch,
+    register,
+    setValue,
+    getValues,
+  } = useForm({
     defaultValues: {
       name: '',
       courses: '',
@@ -21,6 +26,10 @@ function ApplicationForm() {
     ));
 
   const filterCitiesByState = (choosenStateId: string) => {
+    if (getValues('city') !== '') {
+      setValue('city', '');
+    }
+
     const citiesByState = FORM_DATA.city.filter(({ stateId }) => stateId === choosenStateId);
     return renderSelectOptions(citiesByState);
   };
