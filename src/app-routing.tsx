@@ -1,10 +1,10 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import ApplyForm from './apply-form/apply-form';
+import ApplicationForm from './application-form/application-form';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <ApplyForm />,
+    element: <ApplicationForm />,
   },
 ]);
 
