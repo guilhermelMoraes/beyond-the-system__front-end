@@ -38,6 +38,7 @@
           "tsx": "never"
         }
       ],
-      "jsx-a11y/label-has-associated-control": "OFF"
+      "jsx-a11y/label-has-associated-control": "OFF",
+      "react/jsx-props-no-spreading": "OFF"
     }
 }
