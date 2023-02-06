@@ -4,12 +4,13 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { object, SchemaOf, string } from 'yup';
 
+import Select from '../components/select';
 import FORM_DATA from './application-form.data';
 import { ApplicationFormValues, OptionData } from './application-form.interfaces';
 import styles from './application-form.module.css';
 
 function ApplicationForm() {
-  const [cities, setCities] = useState<JSX.Element[]>([]);
+  const [cities, setCities] = useState<OptionData[]>([]);
 
   const validationSchema: SchemaOf<ApplicationFormValues> = object().shape({
     name: string().required('Nome é um campo obrigatório'),
@@ -27,6 +28,7 @@ function ApplicationForm() {
       isDirty,
       isValid,
     },
+    control,
   } = useForm<ApplicationFormValues>({
     mode: 'all',
     defaultValues: {
@@ -38,14 +40,9 @@ function ApplicationForm() {
     resolver: yupResolver(validationSchema),
   });
 
-  const renderSelectOptions = (options: OptionData[]) => options
-    .map(({ id, name }) => (
-      <option key={id} value={id}>{name}</option>
-    ));
-
   const filterCitiesByState = (choosenStateId: string) => {
     const citiesByState = FORM_DATA.city.filter(({ stateId }) => stateId === choosenStateId);
-    setCities(renderSelectOptions(citiesByState));
+    setCities(citiesByState);
   };
 
   useEffect(() => {
@@ -81,67 +78,34 @@ function ApplicationForm() {
               {errors.name?.message}
             </small>
           </div>
-          <div className="mb-3">
-            <label htmlFor="courses">
-              Curso
-            </label>
-            <select
-              id="courses"
-              className={cx('form-select', {
-                'is-invalid': errors.courses,
-              })}
-              aria-label="Seleção de curso"
-              defaultValue=""
-              {...register('courses')}
-            >
-              <option value="" disabled>Selecione um curso</option>
-              {renderSelectOptions(FORM_DATA.courses)}
-            </select>
-            <small className="d-inline-block invalid-feedback">
-              {errors.courses?.message}
-            </small>
-          </div>
-          <div className="mb-3">
-            <label htmlFor="state">
-              Estado
-            </label>
-            <select
-              id="state"
-              className={cx('form-select', {
-                'is-invalid': errors.state,
-              })}
-              aria-label="Seleção de estado"
-              defaultValue=""
-              {...register('state')}
-            >
-              <option value="" disabled>Selecione um estado</option>
-              {renderSelectOptions(FORM_DATA.state)}
-            </select>
-            <small className="d-inline-block invalid-feedback">
-              {errors.state?.message}
-            </small>
-          </div>
-          <div className="mb-3">
-            <label htmlFor="city">
-              Cidade
-            </label>
-            <select
-              id="city"
-              className={cx('form-select', {
-                'is-invalid': errors.city,
-              })}
-              aria-label="Seleção de cidade"
-              defaultValue=""
-              disabled={cities.length === 0}
-              {...register('city')}
-            >
-              <option value="" disabled>Selecione uma cidade</option>
-              {cities}
-            </select>
-            <small className="d-inline-block invalid-feedback">
-              {errors.city?.message}
-            </small>
-          </div>
+          <Select
+            id="courses"
+            labelMsg="Curso"
+            defaultOptionMsg="Selecione um curso"
+            options={FORM_DATA.courses}
+            errorMsg={errors.courses?.message}
+            control={control}
+            {...register('courses')}
+          />
+          <Select
+            id="state"
+            labelMsg="Estado"
+            defaultOptionMsg="Selecione um estado"
+            options={FORM_DATA.state}
+            errorMsg={errors.state?.message}
+            control={control}
+            {...register('state')}
+          />
+          <Select
+            id="city"
+            labelMsg="Cidade"
+            defaultOptionMsg="Selecione uma cidade"
+            options={cities}
+            errorMsg={errors.city?.message}
+            control={control}
+            disabled={cities.length === 0}
+            {...register('city')}
+          />
           <button
             type="submit"
             className="btn w-100 muralis-primary muralis-primary--hover"
