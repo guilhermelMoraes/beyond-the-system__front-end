@@ -85,7 +85,6 @@ function ApplicationForm() {
             options={FORM_DATA.courses}
             errorMsg={errors.courses?.message}
             control={control}
-            {...register('courses')}
           />
           <Select
             id="state"
@@ -94,7 +93,6 @@ function ApplicationForm() {
             options={FORM_DATA.state}
             errorMsg={errors.state?.message}
             control={control}
-            {...register('state')}
           />
           <Select
             id="city"
@@ -104,7 +102,6 @@ function ApplicationForm() {
             errorMsg={errors.city?.message}
             control={control}
             disabled={cities.length === 0}
-            {...register('city')}
           />
           <button
             type="submit"

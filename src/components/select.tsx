@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import React, { ForwardedRef, forwardRef } from 'react';
+import React from 'react';
 import { Controller } from 'react-hook-form';
 
 import { OptionData } from '../application-form/application-form.interfaces';
@@ -14,18 +14,15 @@ type SelectProps = React
     control: any;
   }
 
-const Select = forwardRef((
-  {
-    id,
-    labelMsg,
-    defaultOptionMsg,
-    options,
-    errorMsg,
-    control,
-    ...htmlSelectAttributes
-  }: SelectProps,
-  ref: ForwardedRef<HTMLSelectElement>,
-) => {
+function Select({
+  id,
+  labelMsg,
+  defaultOptionMsg,
+  options,
+  errorMsg,
+  control,
+  ...htmlSelectAttributes
+}: SelectProps) {
   const renderSelectOptions = () => options
     .map((option) => (
       <option key={option.id} value={option.id}>{option.name}</option>
@@ -47,7 +44,6 @@ const Select = forwardRef((
               'is-invalid': errorMsg,
             })}
             aria-label={labelMsg}
-            ref={ref}
             {...htmlSelectAttributes}
           >
             <option value="">{defaultOptionMsg}</option>
@@ -59,10 +55,9 @@ const Select = forwardRef((
         </div>
       )}
       control={control}
-      defaultValue=""
     />
   );
-});
+}
 
 Select.defaultProps = {
   errorMsg: '',
