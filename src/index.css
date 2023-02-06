@@ -1,8 +1,19 @@
 @import url("bootstrap/dist/css/bootstrap.min.css");
+@import url("bootstrap-icons/font/bootstrap-icons.css");
+@import url("react-toastify/dist/ReactToastify.min.css");
 
 * {
   padding: 0;
   margin: 0;
+}
+
+:root {
+  --toastify-color-light: transparent;
+  --toastify-toast-width: 500px;
+}
+
+.notification__container {
+  box-shadow: none;
 }
 
 .muralis-primary {
