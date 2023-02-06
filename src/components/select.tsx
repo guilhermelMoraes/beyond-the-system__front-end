@@ -46,7 +46,7 @@ function Select({
             aria-label={labelMsg}
             {...htmlSelectAttributes}
           >
-            <option value="">{defaultOptionMsg}</option>
+            <option value="" disabled>{defaultOptionMsg}</option>
             {renderSelectOptions()}
           </select>
           <small className="invalid-feedback d-inline-block">
