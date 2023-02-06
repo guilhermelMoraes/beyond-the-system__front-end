@@ -7,15 +7,25 @@
 
 .muralis-primary {
   background-color: #0e2c4e;
+}
+
+.muralis-primary,
+.muralis-primary:disabled,
+.muralis-primary--hover:hover,
+.muralis-primary:focus {
   color: #fff;
 }
 
 .muralis-primary:disabled {
   background-color: #164881;
-  color: #fff;
 }
 
-.muralis-primary--hover:hover {
+.muralis-primary--hover:hover,
+.muralis-primary:focus {
   background-color: #07192c;
-  color: #fff;
+}
+
+.muralis-primary:focus {
+  border: 1px solid #164881;
+  box-shadow: 0 0 0 0.25rem #16488140;
 }
