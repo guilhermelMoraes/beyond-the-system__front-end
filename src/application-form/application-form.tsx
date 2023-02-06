@@ -1,9 +1,12 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import axios from 'axios';
 import cx from 'classnames';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { object, SchemaOf, string } from 'yup';
+import { toast } from 'react-toastify';
 
+import AppNotification from '../components/notification';
 import Select from '../components/select';
 import FORM_DATA from './application-form.data';
 import { ApplicationFormValues, OptionData } from './application-form.interfaces';
@@ -29,6 +32,7 @@ function ApplicationForm() {
       isValid,
     },
     control,
+    handleSubmit,
   } = useForm<ApplicationFormValues>({
     mode: 'all',
     defaultValues: {
@@ -56,13 +60,21 @@ function ApplicationForm() {
     return () => unsubscribe();
   }, [watch]);
 
+  const sendApplicantData = async (data: ApplicationFormValues) => {
+    try {
+      await axios.post('http://localhost:3000/applisadcations', data);
+    } catch (error) {
+      toast(<AppNotification message="teste" />);
+    }
+  };
+
   return (
     <div className={styles['application-form']}>
       <main className={styles['application-form__main']}>
         <header className={`${styles['application-form__header']} muralis-primary p-3`}>
           <h1 className="mb-0">Cadastro de ingressantes</h1>
         </header>
-        <form className={styles['application-form__form']}>
+        <form className={styles['application-form__form']} onSubmit={handleSubmit(sendApplicantData)}>
           <div className="mb-3">
             <label htmlFor="name">Nome</label>
             <input
