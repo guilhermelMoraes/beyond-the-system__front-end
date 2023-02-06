@@ -6,6 +6,7 @@
   "scripts": {
     "prepare": "husky install",
     "dev": "vite",
+    "dev:api": "json-server --watch ./data/fake-api.json",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint --fix src/**/*.{tsx,ts,js}",
@@ -36,6 +37,7 @@
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "husky": "^8.0.3",
+    "json-server": "^0.17.1",
     "lint-staged": "^13.1.0",
     "stylelint": "^14.16.1",
     "stylelint-config-standard": "^29.0.0",
