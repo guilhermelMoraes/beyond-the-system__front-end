@@ -1,4 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import cx from 'classnames';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { object, SchemaOf, string } from 'yup';
 
@@ -7,6 +9,8 @@ import { ApplicationFormValues, OptionData } from './application-form.interfaces
 import styles from './application-form.module.css';
 
 function ApplicationForm() {
+  const [cities, setCities] = useState<JSX.Element[]>([]);
+
   const validationSchema: SchemaOf<ApplicationFormValues> = object().shape({
     name: string().required('Nome é um campo obrigatório'),
     courses: string().required('Curso é uma campo obrigatório').not([''], 'Selecione um curso válido'),
@@ -40,13 +44,20 @@ function ApplicationForm() {
     ));
 
   const filterCitiesByState = (choosenStateId: string) => {
-    if (getValues('city') !== '') {
-      setValue('city', '');
-    }
-
     const citiesByState = FORM_DATA.city.filter(({ stateId }) => stateId === choosenStateId);
-    return renderSelectOptions(citiesByState);
+    setCities(renderSelectOptions(citiesByState));
   };
+
+  useEffect(() => {
+    const { unsubscribe } = watch((values, triggeredBy) => {
+      if (triggeredBy.name === 'state' && triggeredBy.type === 'change') {
+        setValue('city', '');
+        filterCitiesByState(values.state as string);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [watch]);
 
   return (
     <div className={styles['application-form']}>
@@ -134,6 +145,7 @@ function ApplicationForm() {
           <button
             type="submit"
             className="btn w-100 muralis-primary muralis-primary--hover"
+            disabled={!isValid || !isDirty}
           >
             ENVIAR
           </button>
