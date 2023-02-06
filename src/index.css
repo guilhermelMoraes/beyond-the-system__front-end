@@ -10,6 +10,11 @@
   color: #fff;
 }
 
+.muralis-primary:disabled {
+  background-color: #164881;
+  color: #fff;
+}
+
 .muralis-primary--hover:hover {
   background-color: #07192c;
   color: #fff;

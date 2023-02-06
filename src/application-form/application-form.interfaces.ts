@@ -18,10 +18,18 @@ interface ApplicationFormData {
   city: City[];
 }
 
+interface ApplicationFormValues {
+  name: string;
+  courses: string;
+  state: string;
+  city: string;
+}
+
 export default ApplicationFormData;
 export type {
   City,
   State,
   Course,
   OptionData,
+  ApplicationFormValues,
 };

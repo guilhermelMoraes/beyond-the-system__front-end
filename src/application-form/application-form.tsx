@@ -1,24 +1,38 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
+import { object, SchemaOf, string } from 'yup';
 
 import FORM_DATA from './application-form.data';
-import { OptionData } from './application-form.interfaces';
+import { ApplicationFormValues, OptionData } from './application-form.interfaces';
 import styles from './application-form.module.css';
 
 function ApplicationForm() {
+  const validationSchema: SchemaOf<ApplicationFormValues> = object().shape({
+    name: string().required('Nome é um campo obrigatório'),
+    courses: string().required('Curso é uma campo obrigatório').not([''], 'Selecione um curso válido'),
+    state: string().required('Estado é uma campo obrigatório').not([''], 'Selecione um estado válido'),
+    city: string().required('Cidade é uma campo obrigatório').not([''], 'Selecione uma cidade válida'),
+  });
+
   const {
     watch,
     register,
     setValue,
-    getValues,
-  } = useForm({
+    formState: {
+      errors,
+      isDirty,
+      isValid,
+    },
+  } = useForm<ApplicationFormValues>({
+    mode: 'all',
     defaultValues: {
       name: '',
       courses: '',
       state: '',
       city: '',
     },
+    resolver: yupResolver(validationSchema),
   });
-  const stateInputValue = watch('state');
 
   const renderSelectOptions = (options: OptionData[]) => options
     .map(({ id, name }) => (
@@ -46,10 +60,15 @@ function ApplicationForm() {
             <input
               id="name"
               type="text"
-              className="form-control"
+              className={cx('form-control', {
+                'is-invalid': errors.name,
+              })}
               placeholder="Fulano Silva"
               {...register('name')}
             />
+            <small className="d-inline-block invalid-feedback">
+              {errors.name?.message}
+            </small>
           </div>
           <div className="mb-3">
             <label htmlFor="courses">
@@ -57,13 +76,19 @@ function ApplicationForm() {
             </label>
             <select
               id="courses"
-              className="form-select"
+              className={cx('form-select', {
+                'is-invalid': errors.courses,
+              })}
               aria-label="Seleção de curso"
+              defaultValue=""
               {...register('courses')}
             >
-              <option value="" disabled defaultValue="">Selecione um curso</option>
+              <option value="" disabled>Selecione um curso</option>
               {renderSelectOptions(FORM_DATA.courses)}
             </select>
+            <small className="d-inline-block invalid-feedback">
+              {errors.courses?.message}
+            </small>
           </div>
           <div className="mb-3">
             <label htmlFor="state">
@@ -71,13 +96,19 @@ function ApplicationForm() {
             </label>
             <select
               id="state"
-              className="form-select"
+              className={cx('form-select', {
+                'is-invalid': errors.state,
+              })}
               aria-label="Seleção de estado"
+              defaultValue=""
               {...register('state')}
             >
-              <option value="" disabled defaultValue="">Selecione um estado</option>
+              <option value="" disabled>Selecione um estado</option>
               {renderSelectOptions(FORM_DATA.state)}
             </select>
+            <small className="d-inline-block invalid-feedback">
+              {errors.state?.message}
+            </small>
           </div>
           <div className="mb-3">
             <label htmlFor="city">
@@ -85,14 +116,20 @@ function ApplicationForm() {
             </label>
             <select
               id="city"
-              className="form-select"
+              className={cx('form-select', {
+                'is-invalid': errors.city,
+              })}
               aria-label="Seleção de cidade"
-              disabled={stateInputValue === ''}
+              defaultValue=""
+              disabled={cities.length === 0}
               {...register('city')}
             >
-              <option value="" disabled defaultValue="">Selecione uma cidade</option>
-              {filterCitiesByState(stateInputValue)}
+              <option value="" disabled>Selecione uma cidade</option>
+              {cities}
             </select>
+            <small className="d-inline-block invalid-feedback">
+              {errors.city?.message}
+            </small>
           </div>
           <button
             type="submit"
