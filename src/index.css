@@ -10,6 +10,7 @@
 :root {
   --toastify-color-light: transparent;
   --toastify-toast-width: 500px;
+  --muralis-primary: #0e2c4e;
 }
 
 .notification__container {
@@ -17,14 +18,19 @@
 }
 
 .muralis-primary {
-  background-color: #0e2c4e;
+  background-color: var(--muralis-primary);
+}
+
+.muralis__text-primary {
+  color: var(--muralis-primary);
 }
 
 .muralis-primary,
 .muralis-primary:disabled,
+.muralis-primary--active,
 .muralis-primary--hover:hover,
 .muralis-primary:focus {
-  color: #fff;
+  color: #ef7228;
 }
 
 .muralis-primary:disabled {
@@ -32,6 +38,7 @@
 }
 
 .muralis-primary--hover:hover,
+.muralis-primary--active,
 .muralis-primary:focus {
   background-color: #07192c;
 }
