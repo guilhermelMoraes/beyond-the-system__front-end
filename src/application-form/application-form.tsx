@@ -3,17 +3,27 @@ import axios from 'axios';
 import cx from 'classnames';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { object, SchemaOf, string } from 'yup';
 import { toast } from 'react-toastify';
+import { object, SchemaOf, string } from 'yup';
 
 import AppNotification from '../components/notification';
 import Select from '../components/select';
-import FORM_DATA from './application-form.data';
-import { ApplicationFormValues, OptionData } from './application-form.interfaces';
+import ApplicationFormData, {
+  ApplicationFormValues,
+  City,
+  Course,
+  OptionData,
+  State,
+} from './application-form.interfaces';
 import styles from './application-form.module.css';
 
 function ApplicationForm() {
-  const [cities, setCities] = useState<OptionData[]>([]);
+  const [availableCities, setAvailableCities] = useState<OptionData[]>([]);
+  const [selectOptions, setSelectOptions] = useState<ApplicationFormData>({
+    cities: [],
+    courses: [],
+    states: [],
+  });
 
   const validationSchema: SchemaOf<ApplicationFormValues> = object().shape({
     name: string().required('Nome é um campo obrigatório'),
@@ -26,10 +36,12 @@ function ApplicationForm() {
     watch,
     register,
     setValue,
+    reset,
     formState: {
       errors,
       isDirty,
       isValid,
+      isSubmitting,
     },
     control,
     handleSubmit,
@@ -44,12 +56,43 @@ function ApplicationForm() {
     resolver: yupResolver(validationSchema),
   });
 
-  const filterCitiesByState = (choosenStateId: string) => {
-    const citiesByState = FORM_DATA.city.filter(({ stateId }) => stateId === choosenStateId);
-    setCities(citiesByState);
+  const displayError = (error: unknown) => {
+    if (axios.isAxiosError(error)) {
+      toast(<AppNotification message={`${error.code} - ${error.message}`} />);
+      return;
+    }
+    console.error(error);
   };
 
   useEffect(() => {
+    const fetchSelectOptions = async () => {
+      try {
+        const availableCourses = axios.get<Course[]>('http://localhost:3000/courses');
+        const brStates = axios.get<State[]>('http://localhost:3000/states');
+        const brCities = axios.get<City[]>('http://localhost:3000/cities');
+
+        const data = await Promise.all([availableCourses, brStates, brCities]);
+
+        setSelectOptions({
+          courses: data[0].data,
+          states: data[1].data,
+          cities: data[2].data,
+        });
+      } catch (error) {
+        displayError(error);
+      }
+    };
+
+    fetchSelectOptions();
+  }, []);
+
+  useEffect(() => {
+    const filterCitiesByState = (choosenStateId: string) => {
+      const citiesByState = selectOptions
+        .cities.filter(({ stateId }) => stateId === choosenStateId);
+      setAvailableCities(citiesByState);
+    };
+
     const { unsubscribe } = watch((values, triggeredBy) => {
       if (triggeredBy.name === 'state' && triggeredBy.type === 'change') {
         setValue('city', '');
@@ -58,13 +101,14 @@ function ApplicationForm() {
     });
 
     return () => unsubscribe();
-  }, [watch]);
+  }, [watch, selectOptions]);
 
-  const sendApplicantData = async (data: ApplicationFormValues) => {
+  const sendApplicantData = async (data: ApplicationFormValues): Promise<void> => {
     try {
-      await axios.post('http://localhost:3000/applisadcations', data);
+      await axios.post('http://localhost:3000/appdlications', data);
+      reset();
     } catch (error) {
-      toast(<AppNotification message="teste" />);
+      displayError(error);
     }
   };
 
@@ -84,6 +128,7 @@ function ApplicationForm() {
                 'is-invalid': errors.name,
               })}
               placeholder="Fulano Silva"
+              disabled={isSubmitting}
               {...register('name')}
             />
             <small className="d-inline-block invalid-feedback">
@@ -94,33 +139,40 @@ function ApplicationForm() {
             id="courses"
             labelMsg="Curso"
             defaultOptionMsg="Selecione um curso"
-            options={FORM_DATA.courses}
+            options={selectOptions.courses}
             errorMsg={errors.courses?.message}
             control={control}
+            disabled={isSubmitting}
           />
           <Select
             id="state"
             labelMsg="Estado"
             defaultOptionMsg="Selecione um estado"
-            options={FORM_DATA.state}
+            options={selectOptions.states}
             errorMsg={errors.state?.message}
             control={control}
+            disabled={isSubmitting}
           />
           <Select
             id="city"
             labelMsg="Cidade"
             defaultOptionMsg="Selecione uma cidade"
-            options={cities}
+            options={availableCities}
             errorMsg={errors.city?.message}
             control={control}
-            disabled={cities.length === 0}
+            disabled={availableCities.length === 0 || isSubmitting}
           />
           <button
             type="submit"
-            className="btn w-100 muralis-primary muralis-primary--hover"
-            disabled={!isValid || !isDirty}
+            className="btn muralis-primary muralis-primary--hover w-100"
+            disabled={!isValid || !isDirty || isSubmitting}
           >
-            ENVIAR
+            {!isSubmitting ? 'ENVIAR' : (
+              <>
+                <span className="spinner-grow spinner-grow-sm" role="status" aria-hidden="true" />
+                ENVIANDO
+              </>
+            )}
           </button>
         </form>
       </main>
