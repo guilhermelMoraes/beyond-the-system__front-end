@@ -6,8 +6,8 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { object, SchemaOf, string } from 'yup';
 
-import AppNotification from '../components/notification';
-import Select from '../components/select';
+import AppNotification from '../common/components/notification';
+import Select from '../common/components/select';
 import ApplicationFormData, {
   ApplicationFormValues,
   City,
@@ -16,6 +16,8 @@ import ApplicationFormData, {
   State,
 } from './application-form.interfaces';
 import styles from './application-form.module.css';
+
+const FAKE_API_BASE_URL = 'http://localhost:3000';
 
 function ApplicationForm() {
   const [availableCities, setAvailableCities] = useState<OptionData[]>([]);
@@ -67,9 +69,9 @@ function ApplicationForm() {
   useEffect(() => {
     const fetchSelectOptions = async () => {
       try {
-        const availableCourses = axios.get<Course[]>('http://localhost:3000/courses');
-        const brStates = axios.get<State[]>('http://localhost:3000/states');
-        const brCities = axios.get<City[]>('http://localhost:3000/cities');
+        const availableCourses = axios.get<Course[]>(`${FAKE_API_BASE_URL}/courses`);
+        const brStates = axios.get<State[]>(`${FAKE_API_BASE_URL}/states`);
+        const brCities = axios.get<City[]>(`${FAKE_API_BASE_URL}/cities`);
 
         const data = await Promise.all([availableCourses, brStates, brCities]);
 
@@ -105,7 +107,7 @@ function ApplicationForm() {
 
   const sendApplicantData = async (data: ApplicationFormValues): Promise<void> => {
     try {
-      await axios.post('http://localhost:3000/appdlications', data);
+      await axios.post(`${FAKE_API_BASE_URL}/applications`, data);
       reset();
     } catch (error) {
       displayError(error);
