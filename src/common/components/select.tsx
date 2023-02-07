@@ -2,7 +2,7 @@ import cx from 'classnames';
 import React from 'react';
 import { Controller } from 'react-hook-form';
 
-import { OptionData } from '../application-form/application-form.interfaces';
+import { OptionData } from '../../application-form/application-form.interfaces';
 
 type SelectProps = React
   .DetailedHTMLProps<React.SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement> & {
