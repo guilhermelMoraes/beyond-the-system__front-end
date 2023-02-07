@@ -1,10 +1,18 @@
-type AppNotificationProps = {
-  message: string;
+/* eslint-disable no-unused-vars, no-shadow */
+
+enum AppNotificationVariants {
+  ERROR = 'alert-danger',
+  SUCCESS = 'alert-success',
 }
 
-function AppNotification({ message }: AppNotificationProps) {
+type AppNotificationProps = {
+  message: string;
+  type?: AppNotificationVariants;
+}
+
+function AppNotification({ message, type }: AppNotificationProps) {
   return (
-    <div className="alert alert-danger" role="alert">
+    <div className={`alert ${type}`} role="alert">
       <i className="bi bi-exclamation-triangle-fill me-3" />
       <div className="d-inline-block">
         {message}
@@ -13,4 +21,9 @@ function AppNotification({ message }: AppNotificationProps) {
   );
 }
 
+AppNotification.defaultProps = {
+  type: AppNotificationVariants.ERROR,
+};
+
 export default AppNotification;
+export { AppNotificationVariants };

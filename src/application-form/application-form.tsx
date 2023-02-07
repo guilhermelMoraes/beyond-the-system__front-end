@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { object, SchemaOf, string } from 'yup';
 
-import AppNotification from '../common/components/notification';
+import AppNotification, { AppNotificationVariants } from '../common/components/notification';
 import Select from '../common/components/select';
 import ApplicationFormData, {
   ApplicationFormValues,
@@ -107,8 +107,9 @@ function ApplicationForm() {
 
   const sendApplicantData = async (data: ApplicationFormValues): Promise<void> => {
     try {
-      await axios.post(`${FAKE_API_BASE_URL}/applications`, data);
+      await axios.post(`${FAKE_API_BASE_URL}/applicants`, data);
       reset();
+      toast(<AppNotification type={AppNotificationVariants.SUCCESS} message="Ingressante cadastrado com sucesso" />);
     } catch (error) {
       displayError(error);
     }
