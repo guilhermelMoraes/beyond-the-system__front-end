@@ -119,7 +119,7 @@ function ApplicationForm() {
     <div className={styles['application-form']}>
       <main className={styles['application-form__main']}>
         <header className={`${styles['application-form__header']} muralis-primary p-3`}>
-          <h1 className="mb-0">Cadastro de ingressantes</h1>
+          <h1 className="text-white mb-0">Cadastro de ingressantes</h1>
         </header>
         <form className={styles['application-form__form']} onSubmit={handleSubmit(sendApplicantData)}>
           <div className="mb-3">
