@@ -12,10 +12,9 @@ interface City extends OptionData {
 }
 
 interface ApplicationFormData {
-  name: string;
   courses: Course[];
-  state: State[];
-  city: City[];
+  states: State[];
+  cities: City[];
 }
 
 interface ApplicationFormValues {

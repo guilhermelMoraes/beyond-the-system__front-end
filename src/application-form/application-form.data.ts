@@ -1,7 +1,6 @@
 import ApplicationFormData from './application-form.interfaces';
 
 const FORM_DATA: ApplicationFormData = {
-  name: '',
   courses: [
     {
       id: '0',
@@ -16,7 +15,7 @@ const FORM_DATA: ApplicationFormData = {
       name: 'Geografia',
     },
   ],
-  state: [
+  states: [
     {
       id: '0',
       name: 'São Paulo',
@@ -30,7 +29,7 @@ const FORM_DATA: ApplicationFormData = {
       name: 'Minas Gerais',
     },
   ],
-  city: [
+  cities: [
     {
       id: '0',
       name: 'Mogi das Cruzes',
