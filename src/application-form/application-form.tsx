@@ -107,7 +107,10 @@ function ApplicationForm() {
 
   const sendApplicantData = async (data: ApplicationFormValues): Promise<void> => {
     try {
-      await axios.post(`${FAKE_API_BASE_URL}/applicants`, data);
+      await axios.post(`${FAKE_API_BASE_URL}/applicants`, {
+        ...data,
+        date: new Date(),
+      });
       reset();
       toast(<AppNotification type={AppNotificationVariants.SUCCESS} message="Ingressante cadastrado com sucesso" />);
     } catch (error) {
