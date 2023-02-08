@@ -1,9 +1,27 @@
-.dashboard {
-  border: 1px solid red;
+.dashboard__row {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-rows: 1fr;
+  gap: 16px;
 }
 
 .dashboard__placeholder {
-  height: 164px;
   background-color: var(--muralis-primary);
-  display: block;
+}
+
+#dashboard__teste {
+  position: relative;
+  width: 100%;
+  padding: 8px;
+}
+
+@media (min-width: 992px) {
+  .dashboard__row {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  #dashboard__teste {
+    width: 75%;
+  }
 }

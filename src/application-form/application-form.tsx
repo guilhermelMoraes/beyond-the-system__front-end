@@ -8,6 +8,7 @@ import { object, SchemaOf, string } from 'yup';
 
 import AppNotification, { AppNotificationVariants } from '../common/components/notification';
 import Select from '../common/components/select';
+import displayError from '../common/error/display-error';
 import ApplicationFormData, {
   ApplicationFormValues,
   City,
@@ -57,14 +58,6 @@ function ApplicationForm() {
     },
     resolver: yupResolver(validationSchema),
   });
-
-  const displayError = (error: unknown) => {
-    if (axios.isAxiosError(error)) {
-      toast(<AppNotification message={`${error.code} - ${error.message}`} />);
-      return;
-    }
-    console.error(error);
-  };
 
   useEffect(() => {
     const fetchSelectOptions = async () => {
