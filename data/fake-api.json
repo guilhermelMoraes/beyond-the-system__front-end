@@ -80,5 +80,53 @@
     }
   ],
   "applicants": [
+    {
+      "name": "mario",
+      "courseId": "0",
+      "stateId": "0",
+      "cityId": "0",
+      "date": "2023-02-09T17:25:36.971Z",
+      "id": 1
+    },
+    {
+      "name": "luigi",
+      "courseId": "1",
+      "stateId": "0",
+      "cityId": "1",
+      "date": "2023-02-09T17:25:48.836Z",
+      "id": 2
+    },
+    {
+      "name": "peach toadstool",
+      "courseId": "0",
+      "stateId": "0",
+      "cityId": "0",
+      "date": "2023-02-09T17:26:11.139Z",
+      "id": 3
+    },
+    {
+      "name": "wario",
+      "courseId": "2",
+      "stateId": "2",
+      "cityId": "8",
+      "date": "2023-02-09T17:26:20.755Z",
+      "id": 4
+    },
+    {
+      "name": "yoshi",
+      "courseId": "1",
+      "stateId": "0",
+      "cityId": "3",
+      "date": "2023-02-09T17:26:31.846Z",
+      "id": 5
+    },
+    {
+      "name": "bowser",
+      "courseId": "1",
+      "stateId": "1",
+      "cityId": "6",
+      "date": "2023-02-09T17:26:42.616Z",
+      "id": 6
+    }
   ]
 }
