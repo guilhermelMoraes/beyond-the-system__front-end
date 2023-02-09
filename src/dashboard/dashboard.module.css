@@ -10,18 +10,25 @@
   background-color: var(--muralis-primary);
 }
 
-#dashboard__teste {
+.dashboard__placeholder--chart {
+  display: block;
+  height: 256px;
+}
+
+.dashboard__bar-chart {
   position: relative;
   width: 100%;
   padding: 8px;
 }
 
+.dashboard__doughnut {
+  background-color: #fff;
+  height: 100%;
+  position: relative;
+}
+
 @media (min-width: 992px) {
   .dashboard__row {
     grid-template-columns: repeat(4, 1fr);
-  }
-
-  #dashboard__teste {
-    width: 75%;
   }
 }
