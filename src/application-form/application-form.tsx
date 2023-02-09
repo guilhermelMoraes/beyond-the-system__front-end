@@ -10,6 +10,7 @@ import AppNotification, { AppNotificationVariants } from '../common/components/n
 import Select from '../common/components/select';
 import displayError from '../common/error/display-error';
 import ApplicationFormData, {
+  Applicant,
   ApplicationFormValues,
   City,
   Course,
@@ -99,11 +100,16 @@ function ApplicationForm() {
   }, [watch, selectOptions]);
 
   const sendApplicantData = async (data: ApplicationFormValues): Promise<void> => {
+    const applicant: Applicant = {
+      name: data.name,
+      courseId: data.courses,
+      stateId: data.state,
+      cityId: data.city,
+      date: new Date(),
+    };
+
     try {
-      await axios.post(`${FAKE_API_BASE_URL}/applicants`, {
-        ...data,
-        date: new Date(),
-      });
+      await axios.post(`${FAKE_API_BASE_URL}/applicants`, applicant);
       reset();
       toast(<AppNotification type={AppNotificationVariants.SUCCESS} message="Ingressante cadastrado com sucesso" />);
     } catch (error) {

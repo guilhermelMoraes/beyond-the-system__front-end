@@ -24,11 +24,20 @@ interface ApplicationFormValues {
   city: string;
 }
 
+interface Applicant {
+  name: string;
+  stateId: string;
+  cityId: string;
+  courseId: string;
+  date: Date;
+}
+
 export default ApplicationFormData;
 export type {
   City,
   State,
   Course,
+  Applicant,
   OptionData,
   ApplicationFormValues,
 };
