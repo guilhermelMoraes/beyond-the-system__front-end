@@ -5,11 +5,16 @@
 
 .sidepanel {
   width: 20%;
-  padding: 16px;
   box-sizing: border-box;
 }
 
+.sidepanel__body {
+  position: sticky;
+  top: 16px;
+}
+
 .sidepanel__profile {
+  width: 100%;
   margin-bottom: 16px;
 }
 
